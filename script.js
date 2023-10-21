@@ -1,6 +1,5 @@
-const API_KEY="af113449469c4b1d8db0e8d3f82da813";
-const url="https://newsapi.org/v2/everything?q="
-
+const API_KEY = "af113449469c4b1d8db0e8d3f82da813";
+const url = "https://newsapi.org/v2/everything?q=";
 
 window.addEventListener("load", () => fetchNews("India"));
 
@@ -20,12 +19,17 @@ function bindData(articles) {
 
     cardsContainer.innerHTML = "";
 
-    articles.forEach((article) => {
-        if (!article.urlToImage) return;
-        const cardClone = newsCardTemplate.content.cloneNode(true);
-        fillDataInCard(cardClone, article);
-        cardsContainer.appendChild(cardClone);
-    });
+    if (articles && Array.isArray(articles)) {
+        articles.forEach((article) => {
+            if (!article.urlToImage) return;
+            const cardClone = newsCardTemplate.content.cloneNode(true);
+            fillDataInCard(cardClone, article);
+            cardsContainer.appendChild(cardClone);
+        });
+    } else {
+        // Handle the case where articles is undefined or not an array
+        // You can display an error message or take other appropriate actions here.
+    }
 }
 
 function fillDataInCard(cardClone, article) {
@@ -50,6 +54,7 @@ function fillDataInCard(cardClone, article) {
 }
 
 let curSelectedNav = null;
+
 function onNavItemClick(id) {
     fetchNews(id);
     const navItem = document.getElementById(id);
